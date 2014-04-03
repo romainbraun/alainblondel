@@ -51,8 +51,8 @@ function toScreenXY( position, camera, div ) {
     var pos = position.clone();
     projScreenMat = new THREE.Matrix4();
     projScreenMat.multiplyMatrices( camera.projectionMatrix, camera.matrixWorldInverse );
-    projScreenMat.multiplyVector3( pos );
-    //pos.applyMatrix4(projScreenMat);
+    //projScreenMat.multiplyVector3( pos );
+    pos.applyProjection(projScreenMat);
 
     var offset = findOffset(div);
 
@@ -76,7 +76,7 @@ function render() {
 	requestAnimationFrame(render);
 
 	for (var i = 0, groupLength = group.children.length; i < groupLength; ++i) {
-		group.children[i].position.x -= 2 + (mouseX / 5000);
+		group.children[i].position.x -= 2 + (mouseX / 6000);
 		if (toScreenXY(group.children[i].position, camera, renderer.domElement).x < -2000) {
 			group.children[i].position.x = 500;
 		}
