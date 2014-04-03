@@ -1,7 +1,7 @@
 var scene 			= new THREE.Scene(),
 	camera 			= new THREE.PerspectiveCamera(75, window.innerWidth/window.innerHeight, 0.1, 1000),
-	renderer 		= new THREE.WebGLRenderer(),
-	textMaterial 	= new THREE.MeshBasicMaterial( { color: 0xffffff, overdraw: true } ),
+	renderer 		= new THREE.WebGLRenderer({alpha:true}),
+	textMaterial 	= new THREE.MeshBasicMaterial( { color: 0xbbbbbb, overdraw: true } ),
 	group 			= new THREE.Object3D(),
 	mouseY			= 0,
 	mouseX			= 0;
@@ -19,7 +19,7 @@ function init() {
 	for (var i = 0, wordLength = settings.text.length; i < wordLength; ++i) {
 		var text3d = new THREE.TextGeometry( settings.text[i], {
 			size: 10,
-			height: 2,
+			height: 1,
 			curveSegments: 2,
 			font: "helvetiker"
 		});
@@ -76,7 +76,7 @@ function render() {
 	requestAnimationFrame(render);
 
 	for (var i = 0, groupLength = group.children.length; i < groupLength; ++i) {
-		group.children[i].position.x -= 3 + (mouseX / 5000);
+		group.children[i].position.x -= 2 + (mouseX / 5000);
 		if (toScreenXY(group.children[i].position, camera, renderer.domElement).x < -2000) {
 			group.children[i].position.x = 500;
 		}
