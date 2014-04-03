@@ -25,9 +25,9 @@ function init() {
 		});
 		var text = new THREE.Mesh(text3d, textMaterial);
 		group.add(text);
-		text.position.x = Math.random() * 500 - 250;
+		text.position.x = Math.random() * 800 - 400;
 		text.position.y = Math.random() * 200 - 100;
-		text.position.z = Math.random() * 500;
+		text.position.z = Math.random() * 100 + 200;
 	}
 
 	// group.add( text );
@@ -74,13 +74,15 @@ function render() {
 	requestAnimationFrame(render);
 
 	for (var i = 0, groupLength = group.children.length; i < groupLength; ++i) {
-		group.children[i].position.x -= 1;
-		if (toScreenXY(group.children[i].position, camera, renderer.domElement).x < -1000) {
-			group.children[i].position.x = 100;
+		group.children[i].position.x -= 5;
+		if (toScreenXY(group.children[i].position, camera, renderer.domElement).x < -2000) {
+			group.children[i].position.x = 500;
 		}
 	}
 	
 	camera.position.z = mouseY / 200 + 400;
+	camera.position.x = mouseX / 500;
+	camera.lookAt(new THREE.Vector3(0,0,0));
 
 	//console.log(toScreenXY(group.children[0].position, camera, renderer.domElement));
 
