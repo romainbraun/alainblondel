@@ -25,9 +25,11 @@ function init() {
 		});
 		var text = new THREE.Mesh(text3d, textMaterial);
 		group.add(text);
-		text.position.x = Math.random() * 800 - 400;
-		text.position.y = Math.random() * 200 - 100;
-		text.position.z = Math.random() * 100 + 200;
+		text.position.x = Math.random() * 1800 - 900;
+		var tempY = Math.random() * 250 - 125;
+		tempY = Math.ceil(tempY/20) * 20;
+		text.position.y = tempY;
+		text.position.z = Math.random() * 50 + 210;
 	}
 
 	// group.add( text );
@@ -38,7 +40,6 @@ function init() {
 	camera.position.set( 0, 0, 500 );
 
 	render();
-	console.log(group);
 }
 
 function onDocumentMouseMove(event) {
@@ -49,8 +50,9 @@ function onDocumentMouseMove(event) {
 function toScreenXY( position, camera, div ) {
     var pos = position.clone();
     projScreenMat = new THREE.Matrix4();
-    projScreenMat.multiply( camera.projectionMatrix, camera.matrixWorldInverse );
+    projScreenMat.multiplyMatrices( camera.projectionMatrix, camera.matrixWorldInverse );
     projScreenMat.multiplyVector3( pos );
+    //pos.applyMatrix4(projScreenMat);
 
     var offset = findOffset(div);
 
@@ -74,15 +76,15 @@ function render() {
 	requestAnimationFrame(render);
 
 	for (var i = 0, groupLength = group.children.length; i < groupLength; ++i) {
-		group.children[i].position.x -= 5;
+		group.children[i].position.x -= 3 + (mouseX / 5000);
 		if (toScreenXY(group.children[i].position, camera, renderer.domElement).x < -2000) {
 			group.children[i].position.x = 500;
 		}
 	}
-	
+	// console.log(mouseX);
 	camera.position.z = mouseY / 200 + 400;
-	camera.position.x = mouseX / 500;
-	camera.lookAt(new THREE.Vector3(0,0,0));
+	// camera.position.x = mouseX / 500;
+	// camera.lookAt(new THREE.Vector3(0,0,0));
 
 	//console.log(toScreenXY(group.children[0].position, camera, renderer.domElement));
 
