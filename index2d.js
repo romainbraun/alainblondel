@@ -16,28 +16,51 @@ function init() {
     fontSize = Math.ceil(canvas.height / lineNumber);
 
     fabricCanvas = new fabric.StaticCanvas('mainCanvas');
-for(var i = 0, textLength = 300; i < textLength; i++) {
+for(var i = 0, textLength = lineNumber * 3; i < textLength; i++) {
+	addPhrase(i);
+}
+requestAnimationFrame(slideText);
+setInterval(checkPositions, 100);
+}
+
+init();
+
+function checkPositions() {
+	var test = fabricCanvas.getObjects();
+	for (var i = 0; i < text.length; i++) {
+		if(test[i]) {
+			if (test[i].left + test[i].width < - canvasW / 2) {
+				fabricCanvas.remove(test[i]);
+			}
+		}
+		if(text[i]) {
+			if (text[i].left <= canvasW && !text[i+15]) {
+				addPhrase(i+15);
+			}
+		}
+	}
+}
+
+function addPhrase(i) {
 	var color = Math.floor(Math.random() * 150);
-	var phrase = new fabric.Text(settings.text[i], { fontSize: fontSize, fontFamily: 'alainblondelregular', fill: 'rgb('+color+','+color+','+color+')'});
+	var phrase = new fabric.Text(settings.text[i % settings.text.length], { fontSize: fontSize, fontFamily: 'alainblondelregular', fill: 'rgb('+color+','+color+','+color+')'});
 	phrase.top = i % lineNumber * (fontSize);
 	phrase.left = canvasW - Math.random() * (canvasW / 2);
 	if (text[i-15]) {
-		phrase.left = text[i-15].getBoundingRect().left + text[i-15].getBoundingRect().width;
+		phrase.left = text[i-15].left + text[i-15].getBoundingRect().width + 100;
 	} else {
-		phrase.left = canvasW - Math.random() * (canvasW / 2);
+		phrase.left =  Math.random() * (canvasW / 2);
 	}
-	text.push(phrase);
+	text[i] = phrase;
 	fabricCanvas.add(phrase);
 }
-requestAnimationFrame(slideText);
-}
-// setTimeout(init, 1000);
-init();
 
 function slideText() {
-	var test = fabricCanvas.getObjects();
-	for (var i = 0; i < test.length; i++) {
-		test[i].set('left', test[i].left-3);
+	for (var i = 0; i < text.length; i++) {
+		if(text[i]) {
+			text[i].set('left', text[i].left-3);
+
+		}
 	}
 	// text.set('left', text.left+1);
 	fabricCanvas.renderAll();
