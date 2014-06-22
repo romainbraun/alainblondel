@@ -1,0 +1,14 @@
+@font-face {
+    font-family: 'alainblondelregular';
+    src: url('../fonts/alainblondel22.eot');
+    src: url('../fonts/alainblondel22.eot?#iefix') format('embedded-opentype'),
+         url('../fonts/alainblondel22.woff') format('woff'),
+         url('../fonts/alainblondel22.ttf') format('truetype'),
+         url('../fonts/alainblondel22.svg#alainblondelregular') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+p {
+	font-family: 'alainblondelregular';
+}
