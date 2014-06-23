@@ -39,7 +39,7 @@ function displayPicture() {
 		fabricCanvas.add(image);
 		fabricCanvas.moveTo(image,0);
 	});
-	setTimeout(displayPicture, 30000);
+	setTimeout(displayPicture, 40000);
 }
 
 function checkPositions() {
@@ -54,9 +54,7 @@ function checkPositions() {
 		}
 		if(text[i]) {
 			if (text[i].left <= canvasW && !text[i+lineNumber]) {
-				console.log(i+lineNumber, text[i+lineNumber]);
 				if(!imageDisplayed) {
-					console.log('hey');
 					addPhrase(i+lineNumber, false);
 				} else if (image.left + image.width / 1.2 < canvasW && imageDisplayed) {
 					addPhrase(i+lineNumber, true);
@@ -77,13 +75,10 @@ function checkPositions() {
 
 function repopulateCanvas() {
 	var textLength = text.length;
-	console.log('range:',textLength,textLength+lineNumber);
-	console.log('repopulate');
 	for (var i = 0; i < lineNumber; i++) {
 		addPhrase(textLength + i, true);
 	}
 	imageDisplayed = false;
-	console.log('imageDisplayed');
 }
 
 function addPhrase(i, repopulate) {
