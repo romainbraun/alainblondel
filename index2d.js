@@ -4,6 +4,9 @@ var canvas,
 	canvasH,
 	fontSize,
 	lineNumber = 15,
+	elapsedTime = 0,
+	image,
+	imageDisplayed = false,
 	text = [];
 
 function init() {
@@ -20,12 +23,27 @@ for(var i = 0, textLength = lineNumber * 3; i < textLength; i++) {
 	addPhrase(i);
 }
 requestAnimationFrame(slideText);
-setInterval(checkPositions, 100);
+setTimeout(function(){setInterval(checkPositions, 100);},11000)
+setTimeout(displayPicture, 10000);
 }
 
 init();
 
+function displayPicture() {
+	fabric.Image.fromURL('toiles/toile' + Math.ceil(Math.random() * 6) + '.jpg', function(oImg) {
+		imageDisplayed = true;
+		image = oImg;
+		image.width = image.width * (canvasH / image.height);
+		image.height = canvasH;
+		image.left = canvasW * 2;
+		fabricCanvas.add(image);
+		fabricCanvas.moveTo(image,0);
+	});
+	setTimeout(displayPicture, 30000);
+}
+
 function checkPositions() {
+	elapsedTime += .1;
 	var test = fabricCanvas.getObjects();
 	for (var i = 0; i < text.length; i++) {
 		if(test[i]) {
@@ -34,20 +52,45 @@ function checkPositions() {
 			}
 		}
 		if(text[i]) {
-			if (text[i].left <= canvasW && !text[i+15]) {
-				addPhrase(i+15);
+			if (text[i].left <= canvasW && !text[i+lineNumber]) {
+				console.log(i, i+lineNumber);
+				if(!imageDisplayed) {
+					addPhrase(i+lineNumber, false);
+				}
 			}
+		}
+	}
+	if (image) {
+		if (image.left + image.width / 1.2 < canvasW && imageDisplayed) {
+			repopulateCanvas();
+		}
+		if (image.left + image.width < 0) {
+			fabricCanvas.remove(image);
 		}
 	}
 }
 
-function addPhrase(i) {
+function repopulateCanvas() {
+	var textLength = text.length;
+	console.log('repopulate');
+	for (var i = 0; i < lineNumber; i++) {
+		addPhrase(textLength + i, true);
+	}
+	imageDisplayed = false;
+	console.log('imageDisplayed');
+}
+
+function addPhrase(i, repopulate) {
 	var color = Math.floor(Math.random() * 150);
 	var phrase = new fabric.Text(settings.text[i % settings.text.length], { fontSize: fontSize, fontFamily: 'alainblondelregular', fill: 'rgb('+color+','+color+','+color+')'});
 	phrase.top = i % lineNumber * (fontSize);
 	phrase.left = canvasW - Math.random() * (canvasW / 2);
-	if (text[i-15]) {
-		phrase.left = text[i-15].left + text[i-15].getBoundingRect().width + 100;
+	if (text[i-lineNumber]) {
+		if (repopulate) {
+			phrase.left = canvasW + Math.random() * (canvasW / 2);
+		}else {
+			phrase.left = text[i-lineNumber].left + text[i-lineNumber].width + 100;
+		}
 	} else {
 		phrase.left =  Math.random() * (canvasW / 2);
 	}
@@ -57,10 +100,12 @@ function addPhrase(i) {
 
 function slideText() {
 	for (var i = 0; i < text.length; i++) {
-		if(text[i]) {
+		if (text[i]) {
 			text[i].set('left', text[i].left-3);
-
 		}
+	}
+	if (image) {
+		image.set('left', image.left-3);
 	}
 	// text.set('left', text.left+1);
 	fabricCanvas.renderAll();
