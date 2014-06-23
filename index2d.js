@@ -23,7 +23,7 @@ for(var i = 0, textLength = lineNumber * 3; i < textLength; i++) {
 	addPhrase(i);
 }
 requestAnimationFrame(slideText);
-setTimeout(function(){setInterval(checkPositions, 100);},11000)
+setInterval(checkPositions, 100);
 setTimeout(displayPicture, 10000);
 }
 
@@ -43,6 +43,7 @@ function displayPicture() {
 }
 
 function checkPositions() {
+	var stopDisplay = false;
 	elapsedTime += .1;
 	var test = fabricCanvas.getObjects();
 	for (var i = 0; i < text.length; i++) {
@@ -53,16 +54,20 @@ function checkPositions() {
 		}
 		if(text[i]) {
 			if (text[i].left <= canvasW && !text[i+lineNumber]) {
-				console.log(i, i+lineNumber);
+				console.log(i+lineNumber, text[i+lineNumber]);
 				if(!imageDisplayed) {
+					console.log('hey');
 					addPhrase(i+lineNumber, false);
+				} else if (image.left + image.width / 1.2 < canvasW && imageDisplayed) {
+					addPhrase(i+lineNumber, true);
+					stopDisplay = true;
 				}
 			}
 		}
 	}
 	if (image) {
-		if (image.left + image.width / 1.2 < canvasW && imageDisplayed) {
-			repopulateCanvas();
+		if(stopDisplay) {
+			imageDisplayed = false;
 		}
 		if (image.left + image.width < 0) {
 			fabricCanvas.remove(image);
@@ -72,6 +77,7 @@ function checkPositions() {
 
 function repopulateCanvas() {
 	var textLength = text.length;
+	console.log('range:',textLength,textLength+lineNumber);
 	console.log('repopulate');
 	for (var i = 0; i < lineNumber; i++) {
 		addPhrase(textLength + i, true);
