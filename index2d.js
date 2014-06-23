@@ -5,6 +5,7 @@ var canvas,
 	fontSize,
 	lineNumber = 15,
 	elapsedTime = 0,
+	elapsedFrames = 0,
 	image,
 	imageDisplayed = false,
 	text = [];
@@ -24,7 +25,6 @@ for(var i = 0, textLength = lineNumber * 3; i < textLength; i++) {
 }
 requestAnimationFrame(slideText);
 setInterval(checkPositions, 100);
-setTimeout(displayPicture, 10000);
 }
 
 init();
@@ -32,6 +32,9 @@ init();
 function displayPicture() {
 	fabric.Image.fromURL('toiles/toile' + Math.ceil(Math.random() * 6) + '.jpg', function(oImg) {
 		imageDisplayed = true;
+		if (image) {
+			fabricCanvas.remove(image);
+		}
 		image = oImg;
 		image.width = image.width * (canvasH / image.height);
 		image.height = canvasH;
@@ -39,7 +42,6 @@ function displayPicture() {
 		fabricCanvas.add(image);
 		fabricCanvas.moveTo(image,0);
 	});
-	setTimeout(displayPicture, 40000);
 }
 
 function checkPositions() {
@@ -73,14 +75,6 @@ function checkPositions() {
 	}
 }
 
-function repopulateCanvas() {
-	var textLength = text.length;
-	for (var i = 0; i < lineNumber; i++) {
-		addPhrase(textLength + i, true);
-	}
-	imageDisplayed = false;
-}
-
 function addPhrase(i, repopulate) {
 	var color = Math.floor(Math.random() * 150);
 	var phrase = new fabric.Text(settings.text[i % settings.text.length], { fontSize: fontSize, fontFamily: 'alainblondelregular', fill: 'rgb('+color+','+color+','+color+')'});
@@ -100,6 +94,7 @@ function addPhrase(i, repopulate) {
 }
 
 function slideText() {
+	elapsedFrames++;
 	for (var i = 0; i < text.length; i++) {
 		if (text[i]) {
 			text[i].set('left', text[i].left-3);
@@ -108,7 +103,9 @@ function slideText() {
 	if (image) {
 		image.set('left', image.left-3);
 	}
-	// text.set('left', text.left+1);
+	if(elapsedFrames % (30 * 60) === 0) {
+		displayPicture();
+	}
 	fabricCanvas.renderAll();
 	requestAnimationFrame(slideText);
 }
