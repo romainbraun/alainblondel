@@ -2,12 +2,17 @@ var canvas,
 	fabricCanvas,
 	canvasW,
 	canvasH,
+	canvasCenter,
 	fontSize,
-	lineNumber = 20,
+	lineNumber = 30,
 	elapsedTime = 0,
 	elapsedFrames = 0,
 	image,
 	imageDisplayed = false,
+	mouseX,
+	mouseY,
+	textSpeed = 4,
+	minSpeed = 3,
 	text = [];
 
 (function() {
@@ -51,14 +56,23 @@ function init() {
     canvasW = canvas.width;
     canvasH = canvas.height;
 
+    mouseX = canvasW / 2;
+    mouseY = canvasH / 2;
+
     fontSize = Math.ceil(canvas.height / lineNumber);
 
     fabricCanvas = new fabric.StaticCanvas('mainCanvas');
-for(var i = 0, textLength = lineNumber * 3; i < textLength; i++) {
-	addPhrase(i);
-}
-requestAnimationFrame(slideText);
-setInterval(checkPositions, 100);
+    canvasCenter = new fabric.Point(fabricCanvas.getCenter().left,fabricCanvas.getCenter().top);
+	for(var i = 0, textLength = lineNumber * 3; i < textLength; i++) {
+		addPhrase(i);
+	}
+	window.addEventListener("mousemove", function (options) {
+		mouseX = options.x;
+		mouseY = options.y;
+		
+	});
+	requestAnimationFrame(slideText);
+	setInterval(checkPositions, 100);
 }
 
 init();
@@ -79,6 +93,8 @@ function displayPicture() {
 }
 
 function checkPositions() {
+	// console.log(fabricCanvas.getZoom());
+	
 	var stopDisplay = false;
 	elapsedTime += .1;
 	var test = fabricCanvas.getObjects();
@@ -89,7 +105,7 @@ function checkPositions() {
 			}
 		}
 		if(text[i]) {
-			if (text[i].left <= canvasW && !text[i+lineNumber]) {
+			if (text[i].left + text[i].width <= canvasW && !text[i+lineNumber]) {
 				if(!imageDisplayed) {
 					addPhrase(i+lineNumber, false);
 				} else if (image.left + image.width / 1.2 < canvasW && imageDisplayed) {
@@ -111,7 +127,7 @@ function checkPositions() {
 
 function addPhrase(i, repopulate) {
 	var color = Math.floor(Math.random() * 150);
-	var phrase = new fabric.Text(settings.text[i % settings.text.length], { fontSize: fontSize, fontFamily: 'alainblondelregular', fill: 'rgb('+color+','+color+','+color+')'});
+	var phrase = new fabric.Text(settings.text[i % settings.text.length], { centeredScaling: true, fontSize: fontSize, fontFamily: 'alainblondelregular', fill: 'rgb('+color+','+color+','+color+')'});
 	phrase.top = i % lineNumber * (fontSize);
 	phrase.left = canvasW - Math.random() * (canvasW / 2);
 	if (text[i-lineNumber]) {
@@ -128,18 +144,23 @@ function addPhrase(i, repopulate) {
 }
 
 function slideText() {
+	var speed = textSpeed * (mouseX / (canvasW / 2));
+	if (speed < minSpeed) speed = minSpeed;
 	elapsedFrames++;
 	for (var i = 0; i < text.length; i++) {
 		if (text[i]) {
-			text[i].set('left', text[i].left-3);
+			text[i].set('left', text[i].left-speed);
+			// text[i].set('scaleX',mouseY/canvasH + 1);
+			// text[i].set('scaleY',mouseY/canvasH + 1);
 		}
 	}
 	if (image) {
-		image.set('left', image.left-3);
+		image.set('left', image.left-speed);
 	}
 	if(elapsedFrames % (30 * 60) === 0) {
 		displayPicture();
 	}
+	fabricCanvas.zoomToPoint(canvasCenter, 1 + ((mouseY / canvasH)) / 4);
 	fabricCanvas.renderAll();
 	requestAnimationFrame(slideText);
 }
