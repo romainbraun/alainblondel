@@ -4,15 +4,15 @@ var canvas,
 	canvasH,
 	canvasCenter,
 	fontSize,
-	lineNumber = 30,
+	lineNumber = 25,
 	elapsedTime = 0,
 	elapsedFrames = 0,
 	image,
 	imageDisplayed = false,
 	mouseX,
 	mouseY,
-	textSpeed = 4,
-	minSpeed = 3,
+	textSpeed = 3,
+	minSpeed = 2,
 	text = [];
 
 (function() {
@@ -45,14 +45,14 @@ window.requestAnimFrame = (function(){
           window.webkitRequestAnimationFrame ||
           window.mozRequestAnimationFrame    ||
           function( callback ){
-            window.setTimeout(callback, 1000 / 60);
+            window.setTimeout(callback, 1000 / 10);
           };
 })();
 
 function init() {
 	canvas = document.getElementById("mainCanvas");
-    canvas.width = document.body.clientWidth;
-    canvas.height = document.body.clientHeight;
+    canvas.width = document.body.clientWidth / 2;
+    canvas.height = document.body.clientHeight / 2;
     canvasW = canvas.width;
     canvasH = canvas.height;
 
@@ -62,8 +62,10 @@ function init() {
     fontSize = Math.ceil(canvas.height / lineNumber);
 
     fabricCanvas = new fabric.StaticCanvas('mainCanvas');
+    fabricCanvas.skipTargetFind = true;
+    fabricCanvas.renderOnAddRemove=false;
     canvasCenter = new fabric.Point(fabricCanvas.getCenter().left,fabricCanvas.getCenter().top);
-	for(var i = 0, textLength = lineNumber * 3; i < textLength; i++) {
+	for(var i = 0, textLength = lineNumber * 2; i < textLength; i++) {
 		addPhrase(i);
 	}
 	window.addEventListener("mousemove", function (options) {
@@ -144,7 +146,7 @@ function addPhrase(i, repopulate) {
 }
 
 function slideText() {
-	var speed = textSpeed * (mouseX / (canvasW / 2));
+	var speed = textSpeed * (mouseX / (canvasW));
 	if (speed < minSpeed) speed = minSpeed;
 	elapsedFrames++;
 	for (var i = 0; i < text.length; i++) {
@@ -160,7 +162,7 @@ function slideText() {
 	if(elapsedFrames % (30 * 60) === 0) {
 		displayPicture();
 	}
-	fabricCanvas.zoomToPoint(canvasCenter, 1 + ((mouseY / canvasH)) / 4);
+	// fabricCanvas.zoomToPoint(canvasCenter, 1 + ((mouseY / canvasH)) / 4);
 	fabricCanvas.renderAll();
 	requestAnimationFrame(slideText);
 }
