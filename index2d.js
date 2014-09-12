@@ -141,7 +141,9 @@ function addPhrase(i, repopulate) {
 	} else {
 		phrase.left =  Math.random() * (canvasW / 2);
 	}
+	phrase.scaleX = Math.random() * 0.4 + 0.8;
 	text[i] = phrase;
+
 	fabricCanvas.add(phrase);
 }
 
