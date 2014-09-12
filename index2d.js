@@ -75,6 +75,11 @@ function init() {
 	});
 	requestAnimationFrame(slideText);
 	setInterval(checkPositions, 100);
+
+	setTimeout(function () {
+		var loader = document.getElementsByClassName('loading')[0];
+		loader.className = loader.className + " hidden"; 
+	}, 100);
 }
 
 init();
@@ -141,7 +146,9 @@ function addPhrase(i, repopulate) {
 	} else {
 		phrase.left =  Math.random() * (canvasW / 2);
 	}
+	phrase.scaleX = Math.random() * 0.4 + 0.8;
 	text[i] = phrase;
+
 	fabricCanvas.add(phrase);
 }
 
