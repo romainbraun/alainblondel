@@ -16,9 +16,27 @@
 			-moz-transform-origin: 0 0 0;
 			-o-transform-origin: 0 0 0;
 			transform-origin: 0 0 0;
-			} body {margin:0; padding: 0}</style>
+			} 
+			body {margin:0; padding: 0}
+			.loading {
+				position: absolute;
+				width: 100%;
+				height: 100%;
+				background: #FFF;
+				z-index: 1000;
+				opacity: 1;
+				-webkit-transition: opacity 3s ease;
+				-moz-transition: opacity 3s ease;
+				-o-transition: opacity 3s ease;
+				transition: opacity 3s ease;
+			}
+			.loading.hidden {
+				opacity: 0;
+			}
+		</style>
 	</head>
 	<body>
+	<div class="loading"></div>
 	<canvas id="mainCanvas">
 	</canvas>
 	<audio autoplay>

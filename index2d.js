@@ -75,6 +75,11 @@ function init() {
 	});
 	requestAnimationFrame(slideText);
 	setInterval(checkPositions, 100);
+
+	setTimeout(function () {
+		var loader = document.getElementsByClassName('loading')[0];
+		loader.className = loader.className + " hidden"; 
+	}, 100);
 }
 
 init();
