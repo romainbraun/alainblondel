@@ -88,7 +88,7 @@ function displayPicture() {
 		image = oImg;
 		image.width = image.width * (canvasH / image.height);
 		image.height = canvasH;
-		image.left = canvasW * 2;
+		image.left = canvasW + canvasW / 2;
 		fabricCanvas.add(image);
 		fabricCanvas.moveTo(image,0);
 	});
@@ -107,7 +107,7 @@ function checkPositions() {
 			}
 		}
 		if(text[i]) {
-			if (text[i].left + text[i].width <= canvasW && !text[i+lineNumber]) {
+			if (text[i].left + text[i].width - 50 <= canvasW && !text[i+lineNumber]) {
 				if(!imageDisplayed) {
 					addPhrase(i+lineNumber, false);
 				} else if (image.left + image.width / 1.2 < canvasW && imageDisplayed) {
@@ -130,13 +130,13 @@ function checkPositions() {
 function addPhrase(i, repopulate) {
 	var color = Math.floor(Math.random() * 150);
 	var phrase = new fabric.Text(settings.text[i % settings.text.length], { centeredScaling: true, fontSize: fontSize, fontFamily: 'alainblondelregular', fill: 'rgb('+color+','+color+','+color+')'});
-	phrase.top = i % lineNumber * (fontSize);
+	phrase.top = i % lineNumber * (fontSize) + Math.random() * 20 - 10;
 	phrase.left = canvasW - Math.random() * (canvasW / 2);
 	if (text[i-lineNumber]) {
 		if (repopulate) {
 			phrase.left = canvasW + Math.random() * (canvasW / 2);
 		}else {
-			phrase.left = text[i-lineNumber].left + text[i-lineNumber].width + 100;
+			phrase.left = text[i-lineNumber].left + text[i-lineNumber].width + Math.random() * 100 - 50;
 		}
 	} else {
 		phrase.left =  Math.random() * (canvasW / 2);
