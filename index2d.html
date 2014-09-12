@@ -2,11 +2,30 @@
 	<head>
 		<title>Alain Blondel</title>
 		<link rel="stylesheet" href="css/index.css">
-		<style>canvas { width: 100%; height: 100%;} body {margin:0; padding: 0}</style>
+		<style>canvas { 
+			position: absolute;
+			top: 0;
+			left: 0;
+
+			/* Scale out 2X from the corner */
+			-webkit-transform: scale3d(2.0, 2.0, 1.0);
+			-moz-transform: scale3d(2.0, 2.0, 1.0);
+			-o-transform: scale3d(2.0, 2.0, 1.0);
+			transform: scale3d(2.0, 2.0, 1.0);
+			-webkit-transform-origin: 0 0 0;
+			-moz-transform-origin: 0 0 0;
+			-o-transform-origin: 0 0 0;
+			transform-origin: 0 0 0;
+			} body {margin:0; padding: 0}</style>
 	</head>
 	<body>
 	<canvas id="mainCanvas">
 	</canvas>
+	<audio autoplay>
+	<!-- <audio> -->
+		<source src="bruit.mp3" type='audio/mpeg'>
+		<source src="bruit.ogg" type='audio/ogg; codecs=vorbis'>
+	</audio>
     <script src="fabric.min.js"></script>
     <script src="rendertext.js"></script>
 	<script src="text.js"></script>
