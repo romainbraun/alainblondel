@@ -11,6 +11,8 @@ var canvas,
 	imageDisplayed = false,
 	mouseX,
 	mouseY,
+	referenceTextSpeed = 3,
+	imageTextSpeed = 2,
 	textSpeed = 3,
 	minSpeed = 2,
 	text = [];
@@ -40,15 +42,6 @@ var canvas,
         };
 }());
 
-window.requestAnimFrame = (function(){
-  return  window.requestAnimationFrame       ||
-          window.webkitRequestAnimationFrame ||
-          window.mozRequestAnimationFrame    ||
-          function( callback ){
-            window.setTimeout(callback, 1000 / 10);
-          };
-})();
-
 function init() {
 	canvas = document.getElementById("mainCanvas");
     canvas.width = document.body.clientWidth / 2;
@@ -68,42 +61,41 @@ function init() {
 	for(var i = 0, textLength = lineNumber * 2; i < textLength; i++) {
 		addPhrase(i);
 	}
-	window.addEventListener("mousemove", function (options) {
-		mouseX = options.x;
-		mouseY = options.y;
+	// window.addEventListener("mousemove", function (options) {
+	// 	mouseX = options.x || options.clientX;
+	// 	mouseY = options.y || options.clientY;
 		
-	});
+	// });
 	requestAnimationFrame(slideText);
 	setInterval(checkPositions, 100);
 
 	setTimeout(function () {
 		var loader = document.getElementsByClassName('loading')[0];
 		loader.className = loader.className + " hidden"; 
-	}, 100);
+		displayPicture();
+	}, 2000);
 }
 
 init();
 
 function displayPicture() {
-	fabric.Image.fromURL('toiles/toile' + Math.ceil(Math.random() * 6) + '.jpg', function(oImg) {
-		imageDisplayed = true;
-		if (image) {
-			fabricCanvas.remove(image);
-		}
-		image = oImg;
-		image.width = image.width * (canvasH / image.height);
-		image.height = canvasH;
-		image.left = canvasW + canvasW / 2;
-		fabricCanvas.add(image);
-		fabricCanvas.moveTo(image,0);
-	});
+	setTimeout(function () {
+		fabric.Image.fromURL('toiles/final/' + Math.floor(Math.random() * 40) + '.jpg', function(oImg) {
+			imageDisplayed = true;
+			image = oImg;
+			image.width = image.width * (canvasH / image.height);
+			image.height = canvasH;
+			image.left = canvasW + canvasW / 4;
+			fabricCanvas.add(image);
+			fabricCanvas.moveTo(image,0);
+		});
+	}, 8000);
 }
 
 function checkPositions() {
-	// console.log(fabricCanvas.getZoom());
 	
 	var stopDisplay = false;
-	elapsedTime += .1;
+	elapsedTime += 0.1;
 	var test = fabricCanvas.getObjects();
 	for (var i = 0; i < text.length; i++) {
 		if(test[i]) {
@@ -128,6 +120,18 @@ function checkPositions() {
 		}
 		if (image.left + image.width < 0) {
 			fabricCanvas.remove(image);
+			image = null;
+			displayPicture();
+			
+		} else if (imageDisplayed) {
+			if (textSpeed >= imageTextSpeed) {
+				textSpeed -= 0.03;
+			}
+		}
+		if (!imageDisplayed) {
+			if (textSpeed <= referenceTextSpeed) {
+				textSpeed += 0.03;
+			}
 		}
 	}
 }
@@ -153,22 +157,25 @@ function addPhrase(i, repopulate) {
 }
 
 function slideText() {
-	var speed = textSpeed * (mouseX / (canvasW));
-	if (speed < minSpeed) speed = minSpeed;
+	// var speed = textSpeed;
+	// if (speed < minSpeed) speed = minSpeed;
+	// if (imageDisplayed) {
+	// 	speed = speed / 1.5;
+	// }
 	elapsedFrames++;
 	for (var i = 0; i < text.length; i++) {
 		if (text[i]) {
-			text[i].set('left', text[i].left-speed);
+			text[i].set('left', text[i].left-textSpeed);
 			// text[i].set('scaleX',mouseY/canvasH + 1);
 			// text[i].set('scaleY',mouseY/canvasH + 1);
 		}
 	}
 	if (image) {
-		image.set('left', image.left-speed);
+		image.set('left', image.left-textSpeed);
 	}
-	if(elapsedFrames % (30 * 60) === 0) {
-		displayPicture();
-	}
+	// if(elapsedFrames % (16 * 60) === 0) {
+	// 	displayPicture();
+	// }
 	// fabricCanvas.zoomToPoint(canvasCenter, 1 + ((mouseY / canvasH)) / 4);
 	fabricCanvas.renderAll();
 	requestAnimationFrame(slideText);
