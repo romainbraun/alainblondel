@@ -12,7 +12,7 @@ var canvas,
 	mouseX,
 	mouseY,
 	referenceTextSpeed = 3,
-	imageTextSpeed = 1.3,
+	imageTextSpeed = 1,
 	textSpeed = 3,
 	minSpeed = 2,
 	text = [];
@@ -98,7 +98,7 @@ function preloadImages(image) {
 
 function displayPicture() {
 	setTimeout(function () {
-		fabric.Image.fromURL('toiles/final/' + Math.floor(Math.random() * 40) + '.jpg', function(oImg) {
+		fabric.Image.fromURL('toiles/final/' + Math.floor(Math.random() * 28) + '.jpg', function(oImg) {
 			imageDisplayed = true;
 			image = oImg;
 			image.width = image.width * (canvasH / image.height);
@@ -143,12 +143,12 @@ function checkPositions() {
 			
 		} else if (imageDisplayed) {
 			if (textSpeed >= imageTextSpeed) {
-				textSpeed -= 0.04;
+				textSpeed -= 0.05;
 			}
 		}
 		if (!imageDisplayed) {
 			if (textSpeed <= referenceTextSpeed) {
-				textSpeed += 0.04;
+				textSpeed += 0.03;
 			}
 		}
 	}
