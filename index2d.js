@@ -69,7 +69,13 @@ function init() {
 	requestAnimationFrame(slideText);
 	setInterval(checkPositions, 100);
 
-	preloadImages(0);
+	// preloadImages(0);
+
+	setTimeout(function () {
+		var loader = document.getElementsByClassName('loading')[0];
+		loader.className = loader.className + " hidden"; 
+		displayPicture();
+	}, 2000);
 }
 
 init();
@@ -80,9 +86,9 @@ function preloadImages(image) {
 	img.onload = function () {
 		preloadImages(image+1);
 	};
-	if (image < 40) {
-		img.src = 'toiles/final/' + image + '.jpg';
-		document.getElementById('percent').innerHTML = Math.ceil(image / 39 * 100);
+	if (image < 10) {
+		img.src = './toiles/final/' + image + '.jpg';
+		document.getElementById('percent').innerHTML = Math.ceil(image / 9 * 100);
 	} else {
 		var loader = document.getElementsByClassName('loading')[0];
 		loader.className = loader.className + " hidden"; 
