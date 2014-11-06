@@ -12,7 +12,7 @@ var canvas,
 	mouseX,
 	mouseY,
 	referenceTextSpeed = 3,
-	imageTextSpeed = 2,
+	imageTextSpeed = 1.3,
 	textSpeed = 3,
 	minSpeed = 2,
 	text = [];
@@ -69,14 +69,26 @@ function init() {
 	requestAnimationFrame(slideText);
 	setInterval(checkPositions, 100);
 
-	setTimeout(function () {
-		var loader = document.getElementsByClassName('loading')[0];
-		loader.className = loader.className + " hidden"; 
-		displayPicture();
-	}, 2000);
+	preloadImages(0);
 }
 
 init();
+
+function preloadImages(image) {
+	console.log(image);
+	var img = new Image();
+	img.onload = function () {
+		preloadImages(image+1);
+	};
+	if (image < 40) {
+		img.src = 'toiles/final/' + image + '.jpg';
+		document.getElementById('percent').innerHTML = Math.ceil(image / 39 * 100);
+	} else {
+		var loader = document.getElementsByClassName('loading')[0];
+		loader.className = loader.className + " hidden"; 
+		displayPicture();
+	}
+}
 
 function displayPicture() {
 	setTimeout(function () {
@@ -125,12 +137,12 @@ function checkPositions() {
 			
 		} else if (imageDisplayed) {
 			if (textSpeed >= imageTextSpeed) {
-				textSpeed -= 0.03;
+				textSpeed -= 0.04;
 			}
 		}
 		if (!imageDisplayed) {
 			if (textSpeed <= referenceTextSpeed) {
-				textSpeed += 0.03;
+				textSpeed += 0.04;
 			}
 		}
 	}

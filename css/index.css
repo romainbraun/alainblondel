@@ -12,3 +12,20 @@
 p {
 	font-family: 'alainblondelregular';
 }
+
+.loading {
+	text-align: center;
+}
+
+.progress {
+	position: absolute;
+	top: 50%;
+	text-align: center;
+	font-family: "Trebuchet MS", Verdana;
+	font-size: 18px;
+	font-style: italic;
+}
+
+#percent {
+	text-align: center;
+}
