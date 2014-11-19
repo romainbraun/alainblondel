@@ -9,8 +9,12 @@
     font-style: normal;
 }
 
-p {
+p, a {
 	font-family: 'alainblondelregular';
+	text-decoration: none;
+	color: #000;
+	text-transform: uppercase;
+	z-index: 1000;
 }
 
 .loading {
@@ -28,4 +32,12 @@ p {
 
 #percent {
 	text-align: center;
+}
+
+.contact {
+	position: absolute;
+	bottom: 0;
+	right: 0;
+	background: #fff;
+	padding: 5px 10px;
 }

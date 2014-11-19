@@ -75,6 +75,9 @@ function init() {
 		var loader = document.getElementsByClassName('loading')[0];
 		loader.className = loader.className + " hidden"; 
 		displayPicture();
+		setTimeout(function () {
+			loader.className = loader.className + " displayNone"; 
+		}, 2000);
 	}, 2000);
 }
 
