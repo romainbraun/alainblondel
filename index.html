@@ -1,18 +1,17 @@
 <html>
 	<head>
-		<title>Alain Blondel</title>
-		<meta name="description" content="Site web d'Alain Blondel">
+		<title>Alain Blondel, peintre</title>
+		<meta name="description" content="Site web d'Alain Blondel, le peintre">
 		<meta name="author" content="Romain Braun">
 		<meta charset="UTF-8">
 		<meta property="og:title" content="Alain Blondel">
 		<meta property="og:image" content="link_to_image">
-		<meta property="og:description" content="Site web d'Alain Blondel">
+		<meta property="og:description" content="La peinture m’a appris ce que peu de livres sauraient offrir. Sa pratique quotidienne m'a délivré des significations, souvent paradoxales, qui ne constituent en aucun cas un savoir.">
 		<meta name="twitter:card" content="summary" />
 		<meta name="twitter:site" content="@romain_braun" />
 		<meta name="twitter:title" content="Alain Blondel" />
-		<meta name="twitter:description" content="Site web d'Alain Blondel" />
-		<meta name="twitter:image" content="https://farm6.staticflickr.com/5510/14338202952_93595258ff_z.jpg" />
-		<meta name="twitter:url" content="https://www.alainblondel.fr/" />
+		<meta name="twitter:description" content="Site web d'Alain Blondel, peintre." />
+		<meta name="twitter:url" content="http://www.alainblondel.fr/" />
 		<meta name="viewport" content="width=device-width, user-scalable=no">
 		<!-- <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
 		<link rel="apple-touch-icon" sizes="57x57" href="/apple-touch-icon-57x57.png" />
@@ -22,12 +21,13 @@
 		<link rel="apple-touch-icon" sizes="120x120" href="/apple-touch-icon-120x120.png" />
 		<link rel="apple-touch-icon" sizes="144x144" href="/apple-touch-icon-144x144.png" /> -->
 		<meta name="application-name" content="Alain Blondel"/>
-		<!-- <link rel="icon" href="favicon.ico" /> -->
+		<link rel="icon" href="favicon.ico" />
 		<link rel="stylesheet" href="css/index.css">
 		<style>canvas { 
 			position: absolute;
 			top: 0;
 			left: 0;
+			background: #fff;
 
 			/* Scale out 2X from the corner */
 			-webkit-transform: scale3d(2.0, 2.0, 1.0);
@@ -39,7 +39,7 @@
 			-o-transform-origin: 0 0 0;
 			transform-origin: 0 0 0;
 			} 
-			body {margin:0; padding: 0}
+			body {margin:0; padding: 0; height: 100%; width: 100%; overflow: hidden;}
 			.loading {
 				position: absolute;
 				width: 100%;
@@ -68,6 +68,55 @@
 	</canvas>
 	<div class="contact">
 		<a href="mailto:rosedenote@free.fr">Contact</a>
+	</div>
+	<div class="person" itemscope itemtype="http://schema.org/Person">
+		<h1 itemprop="name">Alain Blondel</h1>
+		<span itemprop="email">rosedenote@free.fr</span>
+		<span itemprop="gender">Homme</span>
+		<span itemprop="jobTitle">Peintre</span>
+		<span itemprop="nationality">Francais</span>
+		<span itemprop="telephone">+33681619989</span>
+	</div>
+	<div class="infos" itemscope itemtype="http://schema.org/CreativeWork">
+		<div itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<h1>Alain Blondel</h1>
+			<span itemprop="email">rosedenote@free.fr</span>
+			<span itemprop="gender">Homme</span>
+			<span itemprop="jobTitle">Peintre</span>
+			<span itemprop="nationality">Francais</span>
+			<span itemprop="telephone">+33681619989</span>
+		</div>
+		<span itemprop="genre">Peinture</span>
+		<div itemprop="text">
+			<h2>«Disparités» est une variation.</h2>
+			<p>Grandes surfaces où mes mots en farandoles
+	S’égayent au gré de tous les vents.</p>
+
+			<p>Une bousculade où mes phrases sans boussole
+	S’enlacent, ombrant leurs significations,
+	Simplement pour que formes adviennent.</p>
+
+			<p>Langue rendue miroir 
+			Aux reflets improbables.
+			Paysage peut-être?
+			Hommes parfois,
+			Souvent ne sais.</p>
+
+			<p>Ces surimpressions vagabondes proposent une lecture figurale 
+	Donnant vue sur terre d’intermittence
+	Où calmement se chevauchent les sens.</p>
+
+			<p>«Disparités» est donc un exercice de boutures (plus que de peinture?) 
+	Ayant entrainé mon admission sur des territoires affranchis, 
+	Proches des matières molles mais pulsantes que la peinture espère. </p>
+
+
+			<p>C’est un parcours non-achevé,
+	Une route de Soi vers les «blancs-langages».</p>	
+		</div>
+		<span itemprop="datecreated">2014-08-01</span>
+
+
 	</div>
 	<audio autoplay loop>
 		<source src="bruit.mp3" type='audio/mpeg'>
